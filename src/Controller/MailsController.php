@@ -160,7 +160,9 @@ class MailsController extends AppController {
                     $data['status'] = 'sent';
                     $status = 'sent';
                     //do the actual sending
-                    $this->Mailgun->sendWithAttachments(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
+                    if (in_array('Mailgun', $this->components()->loaded())) {
+                        $this->Mailgun->sendWithAttachments(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
+                    }
                 } else {
                     $data['status'] = 'draft';
                     $status = 'draft';
