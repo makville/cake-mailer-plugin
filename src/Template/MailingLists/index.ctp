@@ -1,52 +1,29 @@
 <?php
-
-echo $this->Html->css('Mail.style');
+echo $this->Html->css('MakvilleMailer.style');
 ?>
-<div class="row">
 
-    <div class="large-12 columns">
-        <div class="box">
-            <div class="box-header bg-transparent">
-                <h3 class="box-title"><i class="fa fa-window-maximize"></i>
-                    <span style="font-size: 14px; font-weight: bold;">
-                        Mailing lists
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-list"></i>
+                    <span>
+                        Mailing Lists
+                    </span>
+                    <span class="float-right">
+                        <?= $this->Html->link('Add Mailing List', ['plugin' => 'MakvilleMailer', 'controller' => 'mailing-lists', 'action' => 'add'], ['class' => 'btn btn-success btn-sm']); ?>
                     </span>
                 </h3>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="display: block;">
-
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="hpanel">
-                            <div class="panel-body">
-
-                                <?= $this->Html->link('New Mailing List', ['plugin' => 'MakvilleMailer', 'controller' => 'mailing-lists', 'action' => 'add'], ['class' => 'btn btn-success btn-block m-b-md']); ?>
-
-                                <ul class="mailbox-list">
-                                    <?php foreach ($mailingLists as $list) : ?>
-                                    <li>
-                                        <?= $this->Html->link('
-                                            <span class="pull-right">' . count($list->mailing_list_addresses) . '</span>
-                                            <i class="fa fa-envelope"></i>' . $list->name, ['plugin' => 'MakvilleMailer', 'controller' => 'mailing-lists', 'action' => 'view', $list->id], ['escape' => false]); ?>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <hr>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="hpanel email-compose">
-                            <div class="panel-body">
-                                <div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="panel-body">
+                <ul class="mailbox-list">
+                    <?php foreach ($mailingLists as $list) : ?>
+                        <li>
+                            <?= $this->Html->link('<i class="fa fa-list"></i> ' . $list->name . '<span class="float-right"> contains ' . count($list->mailing_list_addresses) . ' email addresses</span>', ['plugin' => 'MakvilleMailer', 'controller' => 'mailing-lists', 'action' => 'view', $list->id], ['escape' => false]); ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>

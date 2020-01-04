@@ -114,16 +114,19 @@ class MailsController extends AppController {
             $recipients = [];
             $data = $this->request->data;
             //we need to determine the recipients first
-            $to = explode(',', trim($data['recipients']));
-            foreach ($to as $email) {
-                if (trim($email) == '') {
-                    continue;
+            if (is_array($data['recipients'])) {
+                foreach ($data['recipients'] as $email) {
+                    if (trim($email) == '') {
+                        continue;
+                    }
+                    $recipients[] = trim($email);
                 }
-                $recipients[] = trim($email);
             }
             //are we using mailing lists too?
-            $data['recipient_mailing_lists'] = implode(',', $data['recipient_mailing_lists']);
-            $listIds = $this->request->data('recipient_mailing_lists');
+            if ($data['recipient_mailing_lists']) {
+                $data['recipient_mailing_lists'] = implode(',', $data['recipient_mailing_lists']);
+            }
+            $listIds = is_array($this->request->data('recipient_mailing_lists')) ? $this->request->data('recipient_mailing_lists') : [];
             foreach ($listIds as $listId) {
                 if (is_numeric($listId)) {
                     if ($listId == 0) {
@@ -142,39 +145,40 @@ class MailsController extends AppController {
                         }
                     }
                 }
-                $recipients = implode(',', array_unique($recipients));
-                //attachments
-                if (isset($data['attachments'])) {
-                    $attachments = [];
-                    foreach ($data['attachments'] as $attached) {
-                        $parts = explode('|', $attached);
-                        $attachment = ['remoteName' => $parts[0], 'filePath' => $parts[1]];
-                        $attachments[] = $attachment;
-                    }
-                    $data['attachments'] = implode(',', $data['attachments']);
+            }
+            $recipients = implode(',', array_unique($recipients));
+            //attachments
+            $attachments = [];
+            if (isset($data['attachments'])) {
+                foreach ($data['attachments'] as $attached) {
+                    $parts = explode('|', $attached);
+                    $attachment = ['filename' => $parts[0], 'filePath' => $parts[1]];
+                    $attachments[] = $attachment;
                 }
-                if (isset($data['send'])) {
-                    if (!$mail->isNew()) {
-                        $mail = $this->Mails->newEntity();
-                    }
-                    $data['status'] = 'sent';
-                    $status = 'sent';
-                    //do the actual sending
-                    if (in_array('Mailgun', $this->components()->loaded())) {
-                        $this->Mailgun->sendWithAttachments(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
-                    }
-                } else {
-                    $data['status'] = 'draft';
-                    $status = 'draft';
+                $data['attachments'] = implode(',', $data['attachments']);
+            }
+            if (isset($data['send'])) {
+                if (!$mail->isNew()) {
+                    $mail = $this->Mails->newEntity();
                 }
-                $mail = $this->Mails->patchEntity($mail, $data);
-                if ($this->Mails->save($mail)) {
-                    return $this->redirect(['action' => 'index', $status]);
+                $data['status'] = 'sent';
+                $status = 'sent';
+                //do the actual sending
+                if (in_array('Mailgun', $this->components()->loaded())) {
+                    $this->Mailgun->sendHTML(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
                 }
+            } else {
+                $data['status'] = 'draft';
+                $status = 'draft';
+            }
+            $mail = $this->Mails->patchEntity($mail, $data);
+            if ($this->Mails->save($mail)) {
+                return $this->redirect(['action' => 'index', $status]);
             }
         }
+        $emails = in_array('Acl', $this->components()->loaded()) ? $this->Acl->getEmails() : [];
         $lists = $this->Mailer->getMailingLists();
-        $this->set(compact('lists', 'mail'));
+        $this->set(compact('lists', 'mail', 'emails'));
     }
 
 }

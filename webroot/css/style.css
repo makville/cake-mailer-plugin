@@ -3,6 +3,33 @@
     border-bottom: 1px solid #ddd;
 }
 
+.table-mailbox {
+    border: solid #ccc 1px;
+}
+
+.table-mailbox tr:nth-child(even) {
+    background: #eee;
+}
+
+.table-mailbox tr td {
+    color: black;
+}
+
+.table-mailbox tr td a {
+    color: black;
+}
+
+.mail-content {
+    padding: 30px 0px 30px 0px;
+}
+
+.attachments {
+    border-left: solid 3px greenyellow;
+}
+
+.mailbox-list a {
+    font-size: 14px;
+}
 /* Layout */
 html {
     margin: 0;
