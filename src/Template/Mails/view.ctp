@@ -1,19 +1,12 @@
 <?php
-
-echo $this->Html->css('Mail.style');
+echo $this->Html->css('MakvilleMailer.style');
 ?>
-<div class="row" style="margin-top:-20px">
+<div class="row">
 
     <div class="large-12 columns">
         <div class="box">
             <div class="box-header bg-transparent">
-                <h3 class="box-title">
-                    <?= $this->Form->postLink('<i class="fontello-trash"></i>', ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'delete', $mail->id], ['escape' => false, 'confirm' => 'Are you sure you want to delete this message']);?>
-                    <?= $this->Html->link('<i class="fontello-edit"></i>', ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'compose', $mail->id], ['escape' => false]);?>
-                    <!--<span style="font-size: 14px; font-weight: bold;">
-                        Message
-                    </span>-->
-                </h3>
+                
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="display: block;">
@@ -71,8 +64,8 @@ echo $this->Html->css('Mail.style');
 
                         <div class="panel-footer text-right">
                             <div class="btn-group">
-                                <?= $this->Form->postLink('<button class="btn btn-default"><i class="fontello-trash"></i> Remove</button>', ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'delete', $mail->id], ['escape' => false, 'confirm' => 'Are you sure you want to delete this message']);?>
-                                <?= $this->Html->link('<button class="btn btn-default"><i class="fontello-edit"></i> Compose</button>', ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'compose', $mail->id], ['escape' => false]);?>
+                                <?= $this->Form->postLink('<button class="btn btn-default"><i class="fa fa-trash"></i> Remove</button>', ['plugin' => 'MakvilleMailer', 'controller' => 'mails', 'action' => 'delete', $mail->id], ['escape' => false, 'confirm' => 'Are you sure you want to delete this message']);?>
+                                <?= $this->Html->link('<button class="btn btn-default"><i class="fa fa-edit"></i> Compose</button>', ['plugin' => 'MakvilleMailer', 'controller' => 'mails', 'action' => 'compose', $mail->id], ['escape' => false]);?>
                             </div>
                         </div>
                     </div>

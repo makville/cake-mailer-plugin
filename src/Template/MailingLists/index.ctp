@@ -2,12 +2,12 @@
 
 echo $this->Html->css('Mail.style');
 ?>
-<div class="row" style="margin-top:-20px">
+<div class="row">
 
     <div class="large-12 columns">
         <div class="box">
             <div class="box-header bg-transparent">
-                <h3 class="box-title"><i class="fontello-window"></i>
+                <h3 class="box-title"><i class="fa fa-window-maximize"></i>
                     <span style="font-size: 14px; font-weight: bold;">
                         Mailing lists
                     </span>

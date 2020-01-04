@@ -1,11 +1,9 @@
 <?php
-
-echo $this->Html->css('Mail.style');
-echo $this->Html->script('Mail.behaviours/mail', ['block' => 'scriptBottom']);
+echo $this->Html->css('MakvilleMailer.style');
 ?>
-<div class="row" style="margin-top:-20px">
+<div class="row">
 
-    <div class="large-12 columns">
+    <div class="col-lg-12">
         <div class="box">
             <div class="box-header bg-transparent">
                 <h3 class="box-title"><i class="fontello-window"></i>
@@ -19,62 +17,58 @@ echo $this->Html->script('Mail.behaviours/mail', ['block' => 'scriptBottom']);
                 <div class="row">
                     <div class="col-md-12">
                         <div class="hpanel email-compose">
-                            <?=$this->Form->create($mail, ['class' => 'form-horizontal']); ?>
+                            <?= $this->Form->create($mail, ['class' => 'form-horizontal']); ?>
                             <div class="panel-heading hbuilt">
                                 <div class="p-xs">
                                     <div class="form-group"><label class="col-sm-1 control-label text-left">To:</label>
                                         <div class="col-sm-11">
-                                                <?= $this->Form->input('recipients', ['label' => false, 'type' => 'text', 'class' => 'form-control input-sm', 'placeholder' => 'example@email.com']); ?>
+                                            <?= $this->Form->input('recipients', ['multiple' => 'multiple', 'label' => false, 'options' => [], 'class' => 'form-control select2', 'placeholder' => 'example@email.com']); ?>
                                         </div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-1 control-label text-left">List:</label>
                                         <div class="col-sm-11">
-                                                <?= $this->Form->input('recipient_mailing_lists', ['label' => false, 'class' => 'form-control input-sm', 'options' => $lists, 'empty' => false, 'multiple' => 'multiple', 'value' => explode(',', $mail->recipient_mailing_lists)]); ?>
+                                            <?= $this->Form->input('recipient_mailing_lists', ['label' => false, 'class' => 'form-control select2', 'options' => $lists, 'empty' => false, 'multiple' => 'multiple', 'value' => explode(',', $mail->recipient_mailing_lists)]); ?>
                                         </div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-1 control-label text-left">Subject:</label>
                                         <div class="col-sm-11">
-                                                <?= $this->Form->input('name', ['label' => false, 'type' => 'text', 'class' => 'form-control input-sm', 'placeholder' => 'Subject']); ?>
+                                            <?= $this->Form->input('name', ['label' => false, 'type' => 'text', 'class' => 'form-control input-sm', 'placeholder' => 'Subject']); ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-body no-padding">
-                                <?=$this->Form->input('content', ['type' => 'textarea', 'label' => '']); ?>
+                                <?= $this->Form->input('content', ['type' => 'textarea', 'class' => 'editor', 'label' => '']); ?>
                             </div>
-
-                            <div class="attachments">
-                                <ul class="menu-vertical">
-                                    <?php
-                                    if(isset($mail->attachments)) {
-                                        $attachments = explode(',', $mail->attachments);
-                                        foreach($attachments as $attachment) {
-                                            $parts = explode('|', $attachment);
-                                            echo '<li><input type="hidden" name="attachments[]" value="' . $attachment .'" /><a href="#" class="remove-attachment"><i class="fontello-trash"></i></a>&nbsp;<a href="' . $parts[1] . '" target="_blank">' . $parts[0] . '</a></li>';
-                                        }
-                                    }
-                                    ?>
-                                </ul>
-                            </div>
+                            <p>&nbsp;</p>
                             <div class="panel-footer" style="background: #fff">
-                                <div class="pull-right">
+                                <?php if (Cake\Core\Plugin::isLoaded('MakvilleStorage')): ?>
                                     <div class="btn-group">
-                                        <button class="btn btn-default" name="save"><i class="fa fa-edit"></i> Save</button>
-                                        <!--<button class="btn btn-default"><i class="fa fa-trash"></i> Discard</button>-->
+                                        <a href="<?= $this->request->webroot . substr(Cake\Core\Configure::read('makville-storage-path', '/makville-storage'), 1) ?>/buckets/show/0/attach" data-featherlight="iframe" data-featherlight-iframe-height="640" data-featherlight-iframe-width="1000" class="btn btn-warning"><i class="fa fa-paperclip"></i> </a>
                                     </div>
+                                    <p>&nbsp;</p>
+                                    <div class="attachments">
+                                        <ul class="menu-vertical">
+                                            <?php
+                                            if (isset($mail->attachments)) {
+                                                $attachments = explode(',', $mail->attachments);
+                                                foreach ($attachments as $attachment) {
+                                                    $parts = explode('|', $attachment);
+                                                    echo '<li><input type="hidden" name="attachments[]" value="' . $attachment . '" /><a href="#" class="remove-attachment"><i class="fontello-trash"></i></a>&nbsp;<a href="' . $parts[1] . '" target="_blank">' . $parts[0] . '</a></li>';
+                                                }
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                    <p>&nbsp;</p>
+                                <?php endif; ?>
+                                <div class="pull-right">
+                                    <button class="btn btn-info" name="draft">Save as draft</button>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-primary" name="send">Send</button>
                                 </div>
-                                <button class="btn btn-primary" name="send">Send</button>
-                                <div class="btn-group">
-                                    <a href="#" data-reveal-id="attachmentModal" class="btn btn-default"><i class="fa fa-paperclip"></i> </a>
-                                </div>
-
                             </div>
-                            <?=$this->Form->end();?>
-                            <div id="attachmentModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                                <h5 id="modalTitle">Select attachments</h5>
-                                <iframe src="<?=$this->request->webroot; ?>storage/buckets/show/0/attach" class="attachment-frame"></iframe>
-                                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-                            </div>
+                            <?= $this->Form->end(); ?>
                         </div>
                     </div>
                 </div>
@@ -82,4 +76,4 @@ echo $this->Html->script('Mail.behaviours/mail', ['block' => 'scriptBottom']);
         </div>
     </div>
 </div>
-<?= $this->Html->script('Mail.behaviours/attacher', ['block' => 'scriptBottom']);?>
+<?= $this->Html->script('MakvilleMailer.behaviors/attacher', ['block' => 'scriptBottom']); ?>

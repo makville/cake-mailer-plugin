@@ -41,7 +41,7 @@ class MailingListAddressesTable extends Table {
 
         $this->belongsTo('MailingLists', [
             'foreignKey' => 'mailing_list_id',
-            'className' => 'Mail.MailingLists'
+            'className' => 'MakvilleMailer.MailingLists'
         ]);
     }
 

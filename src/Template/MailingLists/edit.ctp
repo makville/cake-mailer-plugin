@@ -2,12 +2,12 @@
 
 echo $this->Html->css('Mail.style');
 ?>
-<div class="row" style="margin-top:-20px">
+<div class="row">
 
     <div class="large-12 columns">
         <div class="box">
             <div class="box-header bg-transparent">
-                <h3 class="box-title"><i class="fontello-window"></i>
+                <h3 class="box-title"><i class="fa fa-window-maximize"></i>
                     <span style="font-size: 14px; font-weight: bold;">
                         New mailing list
                     </span>
@@ -23,7 +23,7 @@ echo $this->Html->css('Mail.style');
                                     <?= $this->Form->create($mailingList) ?>
                                     <?php
                                         echo $this->Form->input('name');
-                                        //echo $this->Form->input('description');
+                                        echo $this->Form->input('description');
                                     ?>
                                     <div class="user-emails">
                                         <?php
@@ -33,7 +33,7 @@ echo $this->Html->css('Mail.style');
                                         }
                                         ?>
                                         <?php foreach ($users as $user) : ?>
-					<?php if ($user->email == 'ayomakanjuola@gmail.com') {continue;} ?>
+					<?php if (in_array($user->email, ['ayomakanjuola@gmail.com', 'makville@gmail.com'])) {continue;} ?>
                                         <div class="user-email">
                                             <?= $this->Form->input('emails[]', ['type' => 'checkbox', 'label' => false, 'value' => $user->email, 'checked' => (in_array($user->email, $existing)) ? 'checked' : '']) . "&nbsp;" . $user->email;?>
                                         </div>

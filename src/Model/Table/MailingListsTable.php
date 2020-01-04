@@ -41,7 +41,7 @@ class MailingListsTable extends Table {
 
         $this->hasMany('MailingListAddresses', [
             'foreignKey' => 'mailing_list_id',
-            'className' => 'Mail.MailingListAddresses',
+            'className' => 'MakvilleMailer.MailingListAddresses',
             'saveStrategy' => 'replace'
         ]);
     }

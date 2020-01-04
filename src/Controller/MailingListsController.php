@@ -63,7 +63,7 @@ class MailingListsController extends AppController {
                 $this->Flash->error(__('The mailing list could not be saved. Please, try again.'));
             }
         }
-        if (\Cake\Core\Plugin::isLoaded('MakvilleAcl')) {
+        if (in_array('Acl', $this->components()->loaded())) {
             $users = $this->Acl->getUsers();
         } else {
             $users = [];
@@ -100,7 +100,11 @@ class MailingListsController extends AppController {
                 $this->Flash->error(__('The mailing list could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Acl->getUsers();
+        if (in_array('Acl', $this->components()->loaded())) {
+            $users = $this->Acl->getUsers();
+        } else {
+            $users = [];
+        }
         $this->set(compact('mailingList', 'users'));
         $this->set('_serialize', ['mailingList']);
     }

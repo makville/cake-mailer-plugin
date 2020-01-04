@@ -116,9 +116,9 @@ class MailsController extends AppController {
             //we need to determine the recipients first
             $to = explode(',', trim($data['recipients']));
             foreach ($to as $email) {
-		if (trim($email) == '') {
-			continue;
-		}
+                if (trim($email) == '') {
+                    continue;
+                }
                 $recipients[] = trim($email);
             }
             //are we using mailing lists too?
@@ -127,8 +127,12 @@ class MailsController extends AppController {
             foreach ($listIds as $listId) {
                 if (is_numeric($listId)) {
                     if ($listId == 0) {
-                        $users = $this->Acl->getUsers();
-                        foreach($users as $user) {
+                        if (in_array('Acl', $this->components()->loaded())) {
+                            $users = $this->Acl->getUsers();
+                        } else {
+                            $users = [];
+                        }
+                        foreach ($users as $user) {
                             $recipients[] = $user->email;
                         }
                     } else {
@@ -154,12 +158,12 @@ class MailsController extends AppController {
                         $mail = $this->Mails->newEntity();
                     }
                     $data['status'] = 'sent';
-		    $status = 'sent';
+                    $status = 'sent';
                     //do the actual sending
-                    $this->Mailgun->sendWithAttachments('admin@parkinsonnigeria.com', $recipients, $data['name'], $data['content'], $attachments);
+                    $this->Mailgun->sendWithAttachments(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
                 } else {
                     $data['status'] = 'draft';
-		    $status = 'draft';
+                    $status = 'draft';
                 }
                 $mail = $this->Mails->patchEntity($mail, $data);
                 if ($this->Mails->save($mail)) {
@@ -170,4 +174,5 @@ class MailsController extends AppController {
         $lists = $this->Mailer->getMailingLists();
         $this->set(compact('lists', 'mail'));
     }
+
 }

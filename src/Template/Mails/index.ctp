@@ -1,8 +1,7 @@
 <?php
-
-echo $this->Html->css('Mail.style');
+echo $this->Html->css('MakvilleMailer.style');
 ?>
-<div class="row" style="margin-top:-20px">
+<div class="row">
 
     <div class="large-12 columns">
         <div class="box">
@@ -31,12 +30,12 @@ echo $this->Html->css('Mail.style');
                                             <?php foreach ($mails as $mail) : ?>
                                             <tr class="">
                                                 <td class="">
-                                                    <?= $this->Form->postLink('<i class="fontello-trash"></i>', ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'delete', $mail->id], ['escape' => false, 'confirm' => 'Are you sure you want to delete this message']);?>
+                                                    <?= $this->Form->postLink('<i class="fontello-trash"></i>', ['plugin' => 'MakvilleMailer', 'controller' => 'mails', 'action' => 'delete', $mail->id], ['escape' => false, 'confirm' => 'Are you sure you want to delete this message']);?>
                                                 </td>
-                                                <td><?= $this->Html->link(substr($mail->name, 0, 25), ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'view', $mail->id], ['title' => $mail->name]); ?></td>
-                                                <td><?= $this->Html->link(substr($mail->content, 0, 90), ['plugin' => 'mail', 'controller' => 'mails', 'action' => 'view', $mail->id]); ?></td>
+                                                <td><?= $this->Html->link(substr($mail->name, 0, 25), ['plugin' => 'MakvilleMailer', 'controller' => 'mails', 'action' => 'view', $mail->id], ['title' => $mail->name]); ?></td>
+                                                <td><?= $this->Html->link(substr(strip_tags($mail->content), 0, 90), ['plugin' => 'MakvilleMailer', 'controller' => 'mails', 'action' => 'view', $mail->id]); ?></td>
                                                 <td><?= (!is_null($mail->attachments)) ? '<i class="fa fa-paperclip"></i>' : ''; ?></td>
-                                                <td class="text-right mail-date"><?= $mail->created;?></td>
+                                                <td class="text-right mail-date"><?= $mail->created->timeAgoInWords();?></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
