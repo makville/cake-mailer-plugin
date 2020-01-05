@@ -16,19 +16,19 @@ echo $this->Html->css('MakvilleMailer.style');
                 <?= $this->Form->create($mail, ['class' => 'form-horizontal']); ?>
                 <div class="panel-heading hbuilt">
                     <div class="p-xs">
-                        <div class="form-group"><label class="col-sm-1 control-label text-left">To:</label>
-                            <div class="col-sm-11">
-                                <?= $this->Form->input('recipients', ['multiple' => 'multiple', 'label' => false, 'options' => $emails, 'class' => 'form-control select2', 'placeholder' => 'example@email.com']); ?>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <?= $this->Form->input('recipients', ['multiple' => 'multiple', 'label' => 'Select recipients', 'options' => $emails, 'class' => 'form-control select2', 'placeholder' => 'example@email.com']); ?>
                             </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-1 control-label text-left">List:</label>
-                            <div class="col-sm-11">
-                                <?= $this->Form->input('recipient_mailing_lists', ['label' => false, 'class' => 'form-control select2', 'options' => $lists, 'empty' => false, 'multiple' => 'multiple', 'value' => explode(',', $mail->recipient_mailing_lists)]); ?>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <?= $this->Form->input('recipient_mailing_lists', ['label' => 'Select recipient mailing lists', 'class' => 'form-control select2', 'options' => $lists, 'empty' => false, 'multiple' => 'multiple', 'value' => explode(',', $mail->recipient_mailing_lists)]); ?>
                             </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-1 control-label text-left">Subject:</label>
-                            <div class="col-sm-11">
-                                <?= $this->Form->input('name', ['label' => false, 'type' => 'text', 'class' => 'form-control input-sm', 'placeholder' => 'Subject']); ?>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <?= $this->Form->input('name', ['label' => 'Subject', 'type' => 'text', 'class' => 'form-control', 'placeholder' => 'Subject']); ?>
                             </div>
                         </div>
                     </div>
