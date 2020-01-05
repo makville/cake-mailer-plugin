@@ -8,6 +8,7 @@ class AppController extends BaseController {
 
     public function initialize() {
         parent::initialize();
+        $this->viewBuilder()->setLayout('admin');
         if (!in_array('Acl', $this->components()->loaded())) {
             $this->loadComponent('MakvilleMailer.Mailer');
             if (\Cake\Core\Plugin::isLoaded('MakvilleAcl')) {
