@@ -38,7 +38,7 @@ echo $this->Html->css('MakvilleMailer.style');
                 </div>
                 <p>&nbsp;</p>
                 <div class="panel-footer" style="background: #fff">
-                    <?php if (Cake\Core\Plugin::isLoaded('MakvilleStorage')): ?>
+                    <?php if (Cake\Core\Plugin::loaded('MakvilleStorage')): ?>
                         <div class="btn-group">
                             <a href="<?= $this->request->webroot . substr(Cake\Core\Configure::read('makville-storage-path', '/makville-storage'), 1) ?>/buckets/show/0/attach" data-featherlight="iframe" data-featherlight-iframe-height="640" data-featherlight-iframe-width="1000" class="btn btn-warning"><i class="fa fa-paperclip"></i> </a>
                         </div>
