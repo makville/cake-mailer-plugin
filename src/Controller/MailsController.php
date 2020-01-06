@@ -146,7 +146,7 @@ class MailsController extends AppController {
                     }
                 }
             }
-            $recipients = implode(',', array_unique($recipients));
+            $data['recipients'] = implode(',', array_unique($recipients));
             //attachments
             $attachments = [];
             if (isset($data['attachments'])) {
@@ -165,7 +165,7 @@ class MailsController extends AppController {
                 $status = 'sent';
                 //do the actual sending
                 if (in_array('Mailgun', $this->components()->loaded())) {
-                    $this->Mailgun->sendHTML(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $recipients, $data['name'], $data['content'], $attachments);
+                    $this->Mailgun->sendHTML(\Cake\Core\Configure::read('makville-mailer-admin-mail', 'admin@' . $this->request->host()), $data['recipients'], $data['name'], $data['content'], $attachments);
                 }
             } else {
                 $data['status'] = 'draft';
