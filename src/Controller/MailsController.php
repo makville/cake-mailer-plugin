@@ -45,7 +45,7 @@ class MailsController extends AppController {
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $mail = $this->Mails->newEntity();
+        $mail = $this->Mails->newEmptyEntity();
         if ($this->request->is('post')) {
             $mail = $this->Mails->patchEntity($mail, $this->request->data);
             if ($this->Mails->save($mail)) {
@@ -106,7 +106,7 @@ class MailsController extends AppController {
 
     public function compose($id = null) {
         if (is_null($id)) {
-            $mail = $this->Mails->newEntity();
+            $mail = $this->Mails->newEmptyEntity();
         } else {
             $mail = $this->Mails->get($id);
         }
@@ -159,7 +159,7 @@ class MailsController extends AppController {
             }
             if (isset($data['send'])) {
                 if (!$mail->isNew()) {
-                    $mail = $this->Mails->newEntity();
+                    $mail = $this->Mails->newEmptyEntity();
                 }
                 $data['status'] = 'sent';
                 $status = 'sent';

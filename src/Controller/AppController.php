@@ -7,7 +7,7 @@ use Cake\Core\Configure;
 
 class AppController extends BaseController {
 
-    public function initialize() {
+    public function initialize(): void {
         parent::initialize();
         $this->viewBuilder()->setLayout(Configure::read('makville-mailer-layout', 'admin'));
         $this->loadComponent('MakvilleMailer.Mailer');

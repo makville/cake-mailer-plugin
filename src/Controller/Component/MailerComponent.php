@@ -26,7 +26,7 @@ class MailerComponent extends Component {
     
     private $mailingListTable;
 
-    public function initialize(array $config) {
+    public function initialize(array $config): void {
         parent::initialize($config);
         $this->locator = new TableLocator();
         $config = $this->locator->exists('MakvilleMailer.MailingLists') ? [] : ['className' => 'MakvilleMailer\Model\Table\MailingListsTable'];

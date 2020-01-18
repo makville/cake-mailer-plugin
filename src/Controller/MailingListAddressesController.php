@@ -48,7 +48,7 @@ class MailingListAddressesController extends AppController {
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $mailingListAddress = $this->MailingListAddresses->newEntity();
+        $mailingListAddress = $this->MailingListAddresses->newEmptyEntity();
         if ($this->request->is('post')) {
             $mailingListAddress = $this->MailingListAddresses->patchEntity($mailingListAddress, $this->request->data);
             if ($this->MailingListAddresses->save($mailingListAddress)) {
